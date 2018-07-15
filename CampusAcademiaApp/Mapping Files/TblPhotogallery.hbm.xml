@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblPhotogallery" table="tbl_photogallery" lazy="true" >
+    <id name="PhotogalleryId" column="PhotoGallery_ID">
+      
+    </id>
+    <property name="Image">
+      <column name="Image" sql-type="varchar(200)" not-null="false" />
+    </property>
+    <property name="PhotofoldernameId">
+      <column name="PhotoFolderName_ID" sql-type="int(11)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

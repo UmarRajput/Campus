@@ -1,0 +1,246 @@
+﻿@model CampusAcademiaApp.TblTeacher
+
+@{
+    ViewBag.Title = "EditTeacherByAdmin";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@Styles.Render("~/Content/css")
+@{
+    //get all department list to show in dropdown
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    IList<TblDepartment> deptList = oDAO.ListDepartments();
+    SelectList allDept = new SelectList(deptList, Constants.allModelProperties.DeptId, Constants.allModelProperties.DeptName);
+
+    SelectListItem visting = new SelectListItem
+    {
+        Value = "Visting",
+        Text = "Visting"
+    };
+
+    SelectListItem permanent = new SelectListItem
+    {
+        Value = "Permanent",
+        Text = "Permanent"
+    };
+
+    IList<SelectListItem> jobstatus = new List<SelectListItem>();
+    jobstatus.Add(visting);
+    jobstatus.Add(permanent);
+    SelectList statuslist = new SelectList(jobstatus, "Value", "Text");
+
+    SelectListItem lecturer = new SelectListItem
+    {
+        Value = "Lecturer",
+        Text = "Lecturer"
+    };
+
+    SelectListItem assistantProfessor = new SelectListItem
+    {
+        Value = "Assistant Professor",
+        Text = "Assistant Professor"
+    };
+    SelectListItem associateProfessor = new SelectListItem
+    {
+        Value = "Associate Professor",
+        Text = "Associate Professor"
+    };
+    IList<SelectListItem> designation = new List<SelectListItem>();
+    designation.Add(lecturer);
+    designation.Add(assistantProfessor);
+    designation.Add(associateProfessor);
+    SelectList designationlist = new SelectList(designation, "Value", "Text");
+
+}
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+<div class="panel panel-info">
+
+    <div class="panel-heading">
+        <h2 class="text-center">Update</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @using (Html.BeginForm("EditTeacherByAdmin", "AdminHome", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal col-lg-offset-3">
+
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherFirstname, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.TeacherFirstname, new { @class = "form-control", @style = "width:300px;", @placeholder = "First Name" })
+                        @Html.ValidationMessageFor(model => model.TeacherFirstname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherLastname, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.TeacherLastname, new { @class = "form-control", @style = "width:300px;", @placeholder = "Last Name" })
+                        @Html.ValidationMessageFor(model => model.TeacherLastname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherGender, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+
+                        @Html.Label("Male", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.TeacherGender, "Male", new { @Checked = "checked" })
+                        @Html.Label("Female", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.TeacherGender, "Female")
+                        @Html.ValidationMessageFor(model => model.TeacherGender)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherDob, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.TeacherDob, new { @class = "form-control", @style = "width:300px;background:white;", @id = "datepiker",@readonly = "true" })
+                        @Html.ValidationMessageFor(model => model.TeacherDob, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherEmail, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.TeacherEmail, new { @class = "form-control", @style = "width:300px;", @placeholder = "Email" })
+                        @Html.ValidationMessageFor(model => model.TeacherEmail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherPhonenumber, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.TeacherPhonenumber, new { @class = "form-control", @style = "width:300px;", @placeholder = "Mobile No" })
+                        @Html.ValidationMessageFor(model => model.TeacherPhonenumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherAddress, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.TeacherAddress, new { @class = "form-control", @style = "width:300px;", @placeholder = "Address" })
+                        @Html.ValidationMessageFor(model => model.TeacherAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherUserName, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.TeacherUserName, new { @class = "form-control", @style = "width:300px;", @placeholder = "User Name", @id = "username" })
+                        <p><img src="~/Uploads/Icons/LoadingCircle.gif" id="loaderIcon" height="20px" width="20px" style="display:none" /></p>
+                        <span id="user-availability-status"></span>
+                        @Html.ValidationMessageFor(model => model.TeacherUserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.DepartmentId, allDept, new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;", @id = "ddlDepartment" })
+                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherDesignation, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.TeacherDesignation, designationlist, new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;" })
+                        @Html.ValidationMessageFor(model => model.TeacherDesignation, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherJobStatus, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.TeacherJobStatus, statuslist, new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;" })
+                        @Html.ValidationMessageFor(model => model.TeacherJobStatus, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherIsHOD, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+
+                        @Html.Label("Yes", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.TeacherIsHOD, "Yes")
+                        @Html.Label("NO", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.TeacherIsHOD, "NO")
+                        @Html.ValidationMessageFor(model => model.TeacherIsHOD)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherValid, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Label("Blocked", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.TeacherValid, Constants.allModelProperties.UnAprove)
+                        @Html.Label("UnBlocked", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.TeacherValid, Constants.allModelProperties.Approve)
+                        @Html.ValidationMessageFor(model => model.TeacherValid)
+                    </div>
+                </div>
+                @Html.HiddenFor(model => model.TeacherPassword)
+                @Html.HiddenFor(model => model.TeacherId)
+                @Html.HiddenFor(model => model.TeacherImage)
+                @Html.HiddenFor(model => model.TeacherFollowers)
+                @Html.HiddenFor(model => model.TeacherHasApp)
+                @Html.HiddenFor(model => model.CreatedDate)
+                @Html.HiddenFor(model => model.TeacherAppStatus)
+                @Html.HiddenFor(model => model.TeacherImage)
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <input type="submit" value="Update" class="btn btn-info" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $.noConflict();
+        jQuery(document).ready(function () {
+
+            jQuery("#loaderIcon").hide;
+
+            jQuery("#datepiker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showAnim: "clip"
+            });
+            jQuery("#username").blur(function () {
+                jQuery("#loaderIcon").show();
+                jQuery.ajax({
+                    url: '@Url.Action("checkTeacherUserName", "AdminHome")',
+                    data: { username: jQuery(this).val() },
+                    type: "POST",
+                    success: function (data) {
+                        if (data == 'Required') {
+                            var result = "<span class='text-danger'><b>User Name Required.</b></span>";
+                        }
+                        else {
+                            if (data != '') {
+                                jQuery('#username').val('');
+                                var result = "<span class='text-danger glyphicon glyphicon-remove' aria-hidden='true'><b> Username Not Available.</b></span>";
+                            }
+                            else {
+                                var result = "<span class='text-success glyphicon glyphicon-ok' aria-hidden='true'> <b>Username Available.</b></span>";
+                            }
+                        }
+                        jQuery("#user-availability-status").html(result);
+                        jQuery("#loaderIcon").hide();
+                    },
+                    error: function () { }
+                });
+
+            });
+           
+            jQuery(".result").fadeOut(10000);
+        });
+    </script>
+}

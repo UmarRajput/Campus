@@ -1,0 +1,170 @@
+﻿@model IEnumerable<CampusAcademiaApp.TimeTableSessionView>
+
+@{
+    ViewBag.Title = "SeeTimeTable";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@{
+    //get all department list to show in dropdown
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    IList<TblDepartment> deptList = oDAO.ListDepartments();
+    SelectList allDept = new SelectList(deptList, Constants.allModelProperties.DeptId, Constants.allModelProperties.DeptName);
+}
+@if (TempData["Message"] != null)
+{
+    if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+    {
+        <div class="alert alert-danger result">
+            <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success result">
+            <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+        </div>
+    }
+}
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <h2 class="text-center alert-info">Department Course Time Table</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        <p>
+            @Html.ActionLink("Add New TimeTable", "AddTimetable", "AdminHome", null, new { @class = "btn btn-info", @style = "float:left;" })
+            <input type="button" value="Search" class="btn btn-info" id="search" style="float:right;" />
+            @Html.DropDownList(Constants.allModelProperties.CourseId, new SelectList(Enumerable.Empty<SelectListItem>(), Constants.allModelProperties.CourseId, Constants.allModelProperties.CourseName), "--Select Course--", new { @class = "form-control", @style = "width:200px;height:38px;text-align:center;float:right;", @id = "ddlCourse" })
+
+            @Html.DropDownList(Constants.allModelProperties.DeptId, allDept, "--Select Department--", new { @class = "form-control", @style = "width:200px;height:38px;text-align:center;float:right;", @id = "ddlDepartment" })
+            
+        </p>
+        <div id="all">
+            <table class="table table-hover">
+                <tr class="alert-info">
+                    <th>
+                        @Html.DisplayName("Sr#")
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DepartmentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DepartmentCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourseName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourseCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SessionStart)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ClassSection)
+                    </th>
+                    <th>
+                        @Html.DisplayName("Actions")
+                    </th>
+                </tr>
+                @{
+                int count = 1;
+                }
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayName(count.ToString())
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DepartmentName)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.DepartmentCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CourseName)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.CourseCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SessionStart)-@Html.DisplayFor(modelItem => item.SessionEnd)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.ClassSection)
+                        </td>
+                        <td>
+                            @Html.ActionLink("See TimeTable", "Edit", new { id=item.TimetableId }) |
+                            @Html.ActionLink("Delete", "deleteTimeTable", new { id = item.TimetableId })
+                        </td>
+                        @{
+                count++;
+                        }
+                    </tr>
+            }
+
+            </table>
+        </div>
+        <div id="sort">
+            <table>
+                @Html.Raw(ViewBag.strng)
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $.noConflict();
+        jQuery(".result").fadeOut(10000);
+        jQuery(document).ready(function () {
+            jQuery("#ddlCourse").prop("disabled", true);
+            jQuery("#ddlDepartment").change(function () {
+                jQuery("#ddlCourse").empty();
+                var value = jQuery("#ddlDepartment option:selected").val();
+                if (value != "")
+                {
+                    jQuery.ajax({
+                        url: '@Url.Action("getDepartmentCourse", "AdminHome")',
+                        type: "POST",
+                        data: { id: $(this).val() },
+                        success: function (data) {
+                            jQuery("#ddlCourse").append('<option value="">Select Course</option>');
+                            for (var i = 0; i < data.length; i++) {
+
+                                jQuery("#ddlCourse").append('<option value="' + data[i].CourseId + '">' + data[i].CourseCode + '</option>');
+                            }
+                            jQuery("#ddlCourse").prop("disabled", false);
+                        }
+
+                    });
+                }
+                else {
+                    jQuery("#ddlCourse").empty();
+                    jQuery("#ddlCourse").append('<option value="">Select Course</option>');
+                    jQuery("#ddlCourse").prop("disabled", true);
+                }
+            });
+            jQuery("#search").click(function () {
+                var value = jQuery("#ddlDepartment option:selected").val();
+                var value2 = jQuery("#ddlCourse option:selected").val();
+                if (value !="" && value2 !="") {
+                    jQuery.ajax({
+                        url: '@Url.Action("SearchDeptCourseTimeTable", "AdminHome")',
+                        type: "POST",
+                        data: { idd: jQuery("#ddlDepartment option:selected").text(), idc: jQuery("#ddlCourse option:selected").text() },
+                        success: function (data) {
+                            jQuery("#sort").html(data);
+                        }
+
+                    });
+                }
+                else {
+                    alert("Select Department and Course");
+                }
+            });
+           
+        });
+    </script>
+}

@@ -1,0 +1,171 @@
+﻿@model CampusAcademiaApp.TblTimetable
+
+@{
+    ViewBag.Title = "AddTimetable";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@{
+    //get all department list to show in dropdown
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    IList<TblDepartment> deptList = oDAO.ListDepartments();
+    SelectList allDept = new SelectList(deptList, Constants.allModelProperties.DeptId, Constants.allModelProperties.DeptName);
+}
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <h2 class="text-center alert-info">Create Time Table</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @using (Html.BeginForm("AddTimetable", "AdminHome", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+    <div class="form-horizontal col-md-offset-2" style="margin-top:60px">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.DepartmentId, allDept, "--Select Department--", new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;", @id = "ddlDepartment" })
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseId, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.CourseId, new SelectList(Enumerable.Empty<SelectListItem>(), Constants.allModelProperties.CourseId, Constants.allModelProperties.CourseName), "--Select Course--", new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;", @id = "ddlCourse" })
+                @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SessionId, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.SessionId, new SelectList(Enumerable.Empty<SelectListItem>(), Constants.allModelProperties.SessionId, Constants.allModelProperties.SessionStart + "-" + Constants.allModelProperties.SessionEnd), "--Select Session--", new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;", @id = "ddlSession" })
+                @Html.ValidationMessageFor(model => model.SessionId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" id="section">
+            @Html.LabelFor(model => model.ClassSection, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.Label("A", new { @class = "control-label" })
+                @Html.RadioButtonFor(model => model.ClassSection, "A")
+                @Html.Label("B", new { @class = "control-label" })
+                @Html.RadioButtonFor(model => model.ClassSection, "B")
+                <div class="clearfix"></div>
+                @Html.ValidationMessageFor(model => model.ClassSection, "Required Option", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Continue" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+        }
+
+        </div>
+    </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $.noConflict();
+        jQuery(".result").fadeOut(10000);
+        jQuery(document).ready(function () {
+            jQuery("#ddlSession").prop("disabled", true);
+            jQuery("#ddlCourse").prop("disabled", true);
+            jQuery("#section").hide();
+            jQuery("#ddlDepartment").change(function () {
+                jQuery("#ddlCourse").empty();
+                var value = jQuery("#ddlDepartment option:selected").val();
+                if (value != "")
+                {
+                    jQuery("#ddlSession").empty();
+                    jQuery("#ddlSession").append('<option value="">Select Session</option>');
+                    jQuery("#ddlSession").prop("disabled", true);
+                    jQuery.ajax({
+                        url: '@Url.Action("getDepartmentCourse", "AdminHome")',
+                        type: "POST",
+                        data: { id: $(this).val() },
+                        success: function (data) {
+                            jQuery("#ddlCourse").append('<option value="">Select Course</option>');
+                            for (var i = 0; i < data.length; i++) {
+
+                                jQuery("#ddlCourse").append('<option value="' + data[i].CourseId + '">' + data[i].CourseCode + '</option>');
+                            }
+                            jQuery("#ddlCourse").prop("disabled", false);
+                        }
+
+                    });
+                }
+                else {
+                    jQuery("#ddlCourse").empty();
+                    jQuery("#ddlSession").empty();
+                    jQuery("#ddlCourse").append('<option value="">Select Course</option>');
+                    jQuery("#ddlSession").append('<option value="">Select Session</option>');
+                    jQuery("#ddlCourse").prop("disabled", true);
+                    jQuery("#ddlSession").prop("disabled", true);
+                }
+
+
+            });
+            jQuery("#ddlCourse").change(function () {
+                jQuery("#ddlSession").empty();
+                var value = jQuery("#ddlCourse option:selected").val();
+                if (value != "") {
+                    jQuery.ajax({
+                        url: '@Url.Action("getCourseSession", "AdminHome")',
+                        type: "POST",
+                        data: { idc: jQuery(this).val(), idd: jQuery("#ddlDepartment").val() },
+                        success: function (data) {
+                            jQuery("#ddlSession").append('<option value="">Select Session</option>');
+                            for (var i = 0; i < data.length; i++) {
+
+                                jQuery("#ddlSession").append('<option value="' + data[i].SessionId + '">' + data[i].SessionStart + "-" + data[i].SessionEnd + '</option>');
+                            }
+                            jQuery("#ddlSession").prop("disabled", false);
+                        }
+
+                    });
+                }
+                else {
+                    jQuery("#ddlSession").empty();
+                    jQuery("#ddlSession").append('<option value="">Select Session</option>');
+                    jQuery("#ddlSession").prop("disabled", true);
+                }
+            });
+            //ddl session
+            jQuery("#ddlSession").change(function () {
+               
+                jQuery("#ClassSection").rules("remove", 'required');
+                jQuery("#ClassSection").prop("checked", false);
+                jQuery("#section").hide();
+                var value = jQuery("#ddlSession option:selected").val();
+                if (value != "") {
+                    jQuery.ajax({
+                        url: '@Url.Action("getCourseSessionSection", "AdminHome")',
+                        type: "POST",
+                        data: { ids: jQuery(this).val(), idd: jQuery("#ddlDepartment").val(), idc: jQuery("#ddlCourse").val() },
+                        success: function (data) {
+                            if (data == "Yes") {
+                                jQuery("#section").show();
+                                //jQuery("#ClassSection").attr('data-val', false);
+                                jQuery("#ClassSection").rules("add", 'required');
+                            }
+                        }
+
+                    });
+                }
+     
+            });
+        });
+    </script>
+}

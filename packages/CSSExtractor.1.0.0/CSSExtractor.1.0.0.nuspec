@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CSSExtractor</id>
+    <version>1.0.0</version>
+    <title>CSSExtractor</title>
+    <authors>Chandra Shekar Thota</authors>
+    <owners>Chandra Shekar Thota</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Include CSSExtractor.js in your project. 
+Include Jquery-ui.js and jquery-ui.css.
+Once you run your application, Press G to get the inline CSS of that page.</description>
+  </metadata>
+</package>

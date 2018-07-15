@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="DeptCourseSession" table="deptcoursesession" lazy="true" >
+    <id name="SessionId" column="Session_ID" >
+    </id>
+    <property name="SessionStart">
+      <column name="Session_Start" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="SessionEnd">
+      <column name="Session_End" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="SessionSections">
+      <column name="Session_Sections" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="DepartmentName">
+      <column name="Department_Name" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="CourseName">
+      <column name="Course_Name" sql-type="varchar(65)" not-null="false" />
+    </property>
+    <property name="SessionCreateddate">
+      <column name="Session_CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblEveningtime" table="tbl_eveningtime" lazy="true" >
+    <id name="EveningtimeId" column="EveningTime_ID" />
+    <property name="EveningtimeDay1">
+      <column name="EveningTime_Day1" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="EveningtimeDay1startlec">
+      <column name="EveningTime_Day1StartLec" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="EveningtimeDay1endlec">
+      <column name="EveningTime_Day1EndLec" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="EveningtimeDay2">
+      <column name="EveningTime_Day2" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="EveningtimeDay2startlec">
+      <column name="EveningTime_Day2StartLec" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="EveningtimeDay2endlec">
+      <column name="EveningTime_Day2EndLec" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="TimetableId">
+      <column name="TimeTable_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="TeacherId">
+      <column name="Teacher_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="SubjectId">
+      <column name="Subject_ID" sql-type="int(3)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

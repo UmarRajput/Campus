@@ -1,0 +1,268 @@
+﻿@model IEnumerable<CampusAcademiaApp.MorningScheduleView>
+
+@{
+    ViewBag.Title = "ShowMorningSchedule";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+    {
+        <div class="alert alert-danger result">
+            <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success result">
+            <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+        </div>
+    }
+}
+@{
+    var Dept = "";
+    var course = "";
+    var sessionstrat = "";
+    var sessionend = "";
+    var classsection = "";
+    foreach (var item1 in Model)
+    {
+        Dept = Html.DisplayFor(modelItem => item1.DepartmentName).ToString();
+        course = Html.DisplayFor(modelItem => item1.CourseCode).ToString();
+        sessionstrat = Html.DisplayFor(modelItem => item1.SessionStart).ToString();
+        sessionend = Html.DisplayFor(modelItem => item1.SessionEnd).ToString();
+        classsection = Html.DisplayFor(modelItem => item1.ClassSection).ToString();
+        break;
+    }   
+}
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <h2 class="text-center alert-info">Morning Time Table</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        <div>
+            <h4 class="text-center text-bold"> Department Of @Dept </h4>
+            <h4 class="text-center">@course  @sessionstrat-@sessionend</h4>
+            <h5 class="text-center">Section @classsection</h5>
+        </div>
+        <table class="table table-hover" >
+            <tr class="alert-info">
+                <th class="text-center">@Html.DisplayNameFor(model => model.SubjectCode)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.SubjectCredithour)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.SubjectTitle)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.TeacherFirstname)</th>
+                <th class="text-center">@Html.DisplayName("Actions")</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.SubjectCode)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.SubjectCredithour)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.SubjectTitle)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.TeacherFirstname) @Html.DisplayFor(modelItem => item.TeacherLastname)
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("Edit", "EditMorningSchedule", new { id = item.MorningtimeId })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <table class="table table-hover">
+    <tr class="alert-info">
+        <th class="text-center">
+            @Html.DisplayName("Monday")
+        </th>
+        <th class="text-center">
+            @Html.DisplayName("Tuesday")
+        </th>
+        <th class="text-center">
+            @Html.DisplayName("Wednesday")
+        </th>
+        <th class="text-center">
+            @Html.DisplayName("Thursday")
+        </th>
+        <th class="text-center">
+            @Html.DisplayName("Friday")
+        </th>
+        <th class="text-center">
+            @Html.DisplayName("Saturaday")
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().ToString().Equals("Monday") || Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().ToString().Equals("Monday"))
+{
+    if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().ToString().Equals("Monday"))
+    {
+        <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay1startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay1endlec)
+        </td>
+    }
+    if (Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().ToString().Equals("Monday"))
+    {
+       <td class="text-center">
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay2startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay2endlec)
+        </td>
+     }
+     }
+            else
+            {
+
+            <td class="text-center">-----</td>
+            }
+            
+            @if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().Equals("Tuesday") || Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().Equals("Tuesday"))
+{
+    if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().Equals("Tuesday"))
+    {
+        <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay1startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay1endlec)
+        </td>
+    }
+    if (Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().Equals("Tuesday"))
+    {
+         <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay2startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay2endlec)
+        </td>
+    }
+}
+            else
+            {
+
+                <td class="text-center">-----</td>
+            }
+            @if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().Equals("Wednesday") || Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().Equals("Wednesday"))
+{
+    if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().Equals("Wednesday"))
+    {
+        <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay1startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay1endlec)
+        </td>
+    }
+    if (Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().Equals("Wednesday"))
+    {
+        <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay2startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay2endlec)
+        </td>
+    }
+            }
+            else
+            {
+                
+                <td class="text-center">-----</td>
+            }
+            @if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().Equals("Thursday") || Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().Equals("Thursday"))
+            {
+                if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().Equals("Thursday"))
+                {
+             <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay1startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay1endlec)
+        </td>
+                }
+                if (Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().Equals("Thursday"))
+                {
+            <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay2startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay2endlec)
+        </td>
+                }
+           
+            }
+            else
+            {
+                
+                <td class="text-center">-----</td>
+            }
+            @if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().Equals("Friday") || Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().Equals("Friday"))
+            {
+                if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().Equals("Friday"))
+                {
+             <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay1startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay1endlec)
+        </td>
+                }
+                if (Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().Equals("Friday"))
+                {
+            <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay2startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay2endlec)
+        </td>
+                }
+            
+            }
+            else
+            {
+                
+                <td class="text-center">-----</td>
+            }
+            @if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().Equals("Saturday") || Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().Equals("Saturday"))
+            {
+                if (Html.DisplayFor(modelItem => item.MorningtimeDay1).ToString().Equals("Saturday"))
+                {
+            <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay1startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay1endlec)
+        </td>
+                }
+                if (Html.DisplayFor(modelItem => item.MorningtimeDay2).ToString().Equals("Saturday"))
+                {
+            <td class="text-center">
+   
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+            <br />
+            @Html.DisplayFor(modelItem => item.MorningtimeDay2startlec)<b>-</b>@Html.DisplayFor(modelItem => item.MorningtimeDay2endlec)
+        </td>
+                }
+           
+            }
+            else
+            {
+                
+                <td class="text-center">-----</td>
+            }  
+        </tr>
+        }
+        </table>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblNotes" table="tbl_notes" lazy="true" >
+    <id name="NotesId" column="Notes_ID" />
+    <property name="NotesTopicname">
+      <column name="Notes_TopicName" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="NotesFile">
+      <column name="Notes_File" sql-type="varchar(200)" not-null="false" />
+    </property>
+    <property name="SubjectId">
+      <column name="Subject_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="CourseId">
+      <column name="Course_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="SessionId">
+      <column name="Session_ID" sql-type="int(11)" not-null="false" />
+    </property>
+    <property name="DepartmentId">
+      <column name="Department_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="UserId">
+      <column name="User_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="UserType">
+      <column name="User_Type" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="UpdatedNotes">
+      <column name="Updated_Notes" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="NotesPosteddate">
+      <column name="Notes_PostedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="NotesDownloads">
+      <column name="Notes_Downloads" sql-type="int(3)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

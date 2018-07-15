@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblStudent" table="tbl_student" lazy="true" >
+    <id name="StudentId" column="student_ID">
+     <generator class="identity"/>
+    </id>
+    <property name="StudentRollnumber">
+      <column name="student_RollNumber" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="StudentName">
+      <column name="student_Name" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="StudentGender">
+      <column name="student_Gender" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="StudentDob">
+      <column name="student_DOB" sql-type="date" not-null="false" />
+    </property>
+    <property name="StudentEmail">
+      <column name="student_Email" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="StudentPhonenumber">
+      <column name="student_PhoneNumber" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="DepartmentId">
+      <column name="Department_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="CourseId">
+      <column name="Course_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="SessionId">
+      <column name="Session_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="StudentSection">
+      <column name="student_Section" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="StudentClasstime">
+      <column name="student_ClassTime" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="StudentPassword">
+      <column name="student_Password" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="StudentImage">
+      <column name="student_Image" sql-type="varchar(200)" not-null="false" />
+    </property>
+    <property name="StudentAppstatus">
+      <column name="student_AppStatus" sql-type="varchar(100)" not-null="false" />
+    </property>
+    <property name="StudentValid">
+      <column name="student_Valid" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="ModifyDate">
+      <column name="Modify_Date" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="Created_Date" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="StudentHasapp">
+      <column name="student_HasApp" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="StudentApproveby">
+      <column name="student_ApproveBy" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="StudentGcmtoken">
+      <column name="student_gcmToken" sql-type="varchar(65)" not-null="false" />
+    </property>
+    <property name="StudentLogintoken">
+      <column name="student_LoginToken" sql-type="varchar(65)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

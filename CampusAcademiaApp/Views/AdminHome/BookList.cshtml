@@ -1,0 +1,93 @@
+﻿@model IEnumerable<CampusAcademiaApp.Library>
+
+@{
+    ViewBag.Title = "BookList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+    {
+        <div class="alert alert-danger result">
+            <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success result">
+            <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+        </div>
+    }
+}
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h2 class="text-center">Department List</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        <p>
+            @Html.ActionLink("Upload New Book", "UploadBook", "AdminHome", null, new { @class = "btn btn-info" })
+        </p>
+        <table class="table table-hover">
+            <tr class="alert-info">
+                <th>
+                   @Html.DisplayName("Sr#")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookAuthor)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookDownloads)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DepartmentName)
+                </th>
+                <th></th>
+            </tr>
+            @{
+                int count = 1;
+            }
+            @foreach (var item in Model)
+            {
+    <tr>
+        <td>
+            @Html.DisplayName(count.ToString())
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookAuthor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookDownloads)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartmentName)
+        </td>
+        <td>
+            @Html.ActionLink("Download", "DownloadBook", new { id=item.BookId}) |
+            @Html.ActionLink("Delete", "DeleteBook", new { id=item.BookId})
+        </td>
+        @{
+                count++;
+        }
+    </tr>
+}
+
+        </table>
+</div>
+</div>
+@section scripts{
+
+    <script type="text/javascript">
+        $.noConflict();
+        jQuery(function () {
+            $('.result').fadeOut(10000);
+        });
+    </script>
+}

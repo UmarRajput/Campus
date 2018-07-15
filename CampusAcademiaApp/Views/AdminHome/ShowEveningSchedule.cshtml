@@ -1,0 +1,142 @@
+﻿@model IEnumerable<CampusAcademiaApp.EveningScheduleView>
+
+@{
+    ViewBag.Title = "ShowEveningSchedule";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>ShowEveningSchedule</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EveningtimeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EveningtimeDay1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EveningtimeDay1startlec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EveningtimeDay1endlec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EveningtimeDay2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EveningtimeDay2startlec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EveningtimeDay2endlec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TeacherFirstname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TeacherLastname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubjectTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubjectCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubjectCredithour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassSection)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartmentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartmentCode)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EveningtimeId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EveningtimeDay1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EveningtimeDay1startlec)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EveningtimeDay1endlec)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EveningtimeDay2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EveningtimeDay2startlec)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EveningtimeDay2endlec)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TeacherFirstname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TeacherLastname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubjectTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubjectCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubjectCredithour)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClassSection)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartmentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartmentCode)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

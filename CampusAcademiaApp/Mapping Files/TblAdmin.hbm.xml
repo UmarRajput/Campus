@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblAdmin" table="tbl_admin" lazy="true" >
+    <id name="AdminId" column="Admin_ID">
+       <generator class="identity"/>
+    </id>
+    <property name="AdminName">
+      <column name="Admin_Name" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="AdminGender">
+      <column name="Admin_Gender" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="AdminDob">
+      <column name="Admin_DOB" sql-type="date" not-null="false" />
+    </property>
+    <property name="AdminEmail">
+      <column name="Admin_Email" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="AdminPhonenumber">
+      <column name="Admin_PhoneNumber" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="AdminUsername">
+      <column name="Admin_UserName" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="AdminPassword">
+      <column name="Admin_Password" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="AdminImage">
+      <column name="Admin_Image" sql-type="varchar(200)" not-null="false" />
+    </property>
+    <property name="DepartmentId">
+      <column name="Department_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="AdminUsertype">
+      <column name="Admin_UserType" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="AdminValid">
+      <column name="Admin_Valid" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="ModifyDate">
+      <column name="Modify_Date" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="Created_Date" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="Created_By" sql-type="varchar(45)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

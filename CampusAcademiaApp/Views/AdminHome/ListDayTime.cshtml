@@ -1,0 +1,75 @@
+﻿@model IEnumerable<CampusAcademiaApp.TblLecturetime>
+
+@{
+    ViewBag.Title = "ListDayTime";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@if (TempData["Message"] != null)
+{
+    if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+    {
+        <div class="alert alert-danger result">
+            <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success result">
+            <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+        </div>
+    }
+}
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <h2 class="text-center alert-info">Time List</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        <p>
+            @Html.ActionLink("Add New Time", "AddTime", "AdminHome", null, new { @class = "btn btn-info" })
+        </p>
+        <table class="table table-hover">
+            <tr class="alert-info">
+                <th>
+                    @Html.DisplayName("Sr#")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LecturetimeTime)
+                </th>
+                <th>
+                    @Html.DisplayName("Actions")
+                </th>
+            </tr>
+            @{
+                int count = 1;
+            }
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayName(count.ToString())
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LecturetimeTime)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "deleteDayTime", new { id=item.LecturetimeId })
+                </td>
+                @{
+                count++;
+                }
+            </tr>
+            }
+
+        </table>
+    </div>
+</div>
+@section scripts{
+
+    <script type="text/javascript">
+        $.noConflict();
+        jQuery(function () {
+            $('.result').fadeOut(10000);
+        });
+    </script>
+}

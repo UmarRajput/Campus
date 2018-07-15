@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblEvents" table="tbl_events" lazy="true" >
+    <id name="EventId" column="Event_ID" />
+    <property name="EventTitle">
+      <column name="Event_Title" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="EventDescription">
+      <column name="Event_Description" sql-type="varchar(300)" not-null="false" />
+    </property>
+    <property name="EventDate">
+      <column name="Event_Date" sql-type="date" not-null="false" />
+    </property>
+    <property name="EventImage">
+      <column name="Event_Image" sql-type="varchar(200)" not-null="false" />
+    </property>
+    <property name="PostedDate">
+      <column name="Posted_Date" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="PostedBy">
+      <column name="Posted_By" sql-type="int(3)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

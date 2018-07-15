@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblSubject" table="tbl_subject" lazy="true" >
+    <id name="SubjectId" column="Subject_ID" />
+    <property name="SubjectTitle">
+      <column name="Subject_Title" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="SubjectCode">
+      <column name="Subject_Code" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="SubjectCredithour">
+      <column name="Subject_CreditHour" sql-type="int(11)" not-null="true" />
+    </property>
+    <property name="DepartmentId">
+      <column name="Department_ID" sql-type="int(3)" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

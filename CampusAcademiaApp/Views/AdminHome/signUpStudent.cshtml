@@ -1,0 +1,279 @@
+﻿@model CampusAcademiaApp.TblStudent
+
+@{
+    ViewBag.Title = "signUpStudent";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@Styles.Render("~/Content/css")
+@{
+    //get all department list to show in dropdown
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    IList<TblDepartment> deptList = oDAO.ListDepartments();
+    SelectList allDept = new SelectList(deptList, Constants.allModelProperties.DeptId, Constants.allModelProperties.DeptName);
+}
+<div class="panel panel-info col-md-9 col-md-offset-3">
+
+    <div class="panel-heading">
+        <h2 class="text-center">Sign Up</h2>
+    </div>
+    <div class="panel-body" style="min-height:600px">
+        @using (Html.BeginForm("signUpStudent", "AdminHome", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal col-md-offset-1">
+                <hr />
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentRollnumber, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.StudentRollnumber, new { @class = "form-control", @style = "width:300px;", @maxlength = '7', @placeholder = "Enter Your Roll Number", @id = "rollnumber" })
+                        <p style="display:none" id="loaderIcon"><i class="fa fa-refresh fa-spin"></i></p>
+                        <span id="rollnumber-availability-status"></span>
+                        @Html.ValidationMessageFor(model => model.StudentRollnumber)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentName, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.StudentName, new { @class = "form-control", @style = "width:300px;", @placeholder = "Enter Your Name" })
+                        @Html.ValidationMessageFor(model => model.StudentName)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentGender, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.Label("Male", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.StudentGender, "Male", new { @Checked = "checked" })
+                        @Html.Label("Female", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.StudentGender, "Female")
+                        @Html.ValidationMessageFor(model => model.StudentGender)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentDob, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.StudentDob, new { @class = "form-control", @style = "width:300px;background:white;", @id = "datepiker", @readonly = "true" })
+                        @Html.ValidationMessageFor(model => model.StudentDob)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentEmail, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.StudentEmail, new { @class = "form-control", @style = "width:300px;", @placeholder = "Email" })
+                        @Html.ValidationMessageFor(model => model.StudentEmail)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentPhonenumber, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.StudentPhonenumber, new { @class = "form-control", @style = "width:300px;", @placeholder = "Mobile No" })
+                        @Html.ValidationMessageFor(model => model.StudentPhonenumber)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(model => model.DepartmentId, allDept, "--Select Department--", new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;", @id = "ddlDepartment" })
+                        @Html.ValidationMessageFor(model => model.DepartmentId)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseId, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(model => model.CourseId, new SelectList(Enumerable.Empty<SelectListItem>(), Constants.allModelProperties.CourseId, Constants.allModelProperties.CourseName), "--Select Course--", new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;", @id = "ddlCourse" })
+                        @Html.ValidationMessageFor(model => model.CourseId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SessionId, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(model => model.CourseId, new SelectList(Enumerable.Empty<SelectListItem>(), Constants.allModelProperties.SessionId, Constants.allModelProperties.SessionStart+"-"+Constants.allModelProperties.SessionEnd), "--Select Session--", new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;", @id = "ddlSession" })
+                        @Html.ValidationMessageFor(model => model.SessionId)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentSection, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        
+                            @Html.Label("A", new { @class = "control-label" })
+                            @Html.RadioButtonFor(model => model.StudentSection, "A", new { @Checked = "checked" })
+                            @Html.Label("B", new { @class = "control-label" })
+                            @Html.RadioButtonFor(model => model.StudentSection, "B")
+                            @Html.ValidationMessageFor(model => model.StudentSection)
+                        </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentClasstime, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                            @Html.Label("Morning", new { @class = "control-label" })
+                            @Html.RadioButtonFor(model => model.StudentClasstime, "Morning", new { @Checked = "checked" })
+                            @Html.Label("Evening", new { @class = "control-label" })
+                            @Html.RadioButtonFor(model => model.StudentClasstime, "Evening")
+                        @Html.ValidationMessageFor(model => model.StudentClasstime)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentPassword, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.PasswordFor(model => model.StudentPassword, new { @class = "form-control", @style = "width:300px;" })
+                        @Html.ValidationMessageFor(model => model.StudentPassword)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentImage, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        <img id="previewHolder" alt="Your Image" width="150px" height="150px" class="img-circle" />
+                        <br />
+                        <input type="file" id="StudentImage" name="StudentImage" accept="image/*" />
+                        @Html.ValidationMessageFor(model => model.StudentImage)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <input type="submit" value="Register" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+
+    <script>
+        $.noConflict();
+        jQuery(document).ready(function () {
+
+            jQuery('#previewHolder').hide();
+            jQuery("#loaderIcon").hide;
+
+            jQuery("#datepiker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showAnim: "clip",
+                dateFormat: "dd/mm/yy"
+            });
+            jQuery("#rollnumber").blur(function () {
+                jQuery("#loaderIcon").show();
+                jQuery.ajax({
+                    url: '@Url.Action("checkRollNumber", "AdminHome")',
+                    data: { RN: jQuery(this).val() },
+                    type: "POST",
+                    success: function (data) {
+                        if (data == 'Required') {
+                            var result = "<span class='text-danger'><b>Roll Number Required.</b></span>";
+                        }
+                        else {
+                            if (data != '') {
+                                jQuery('#rollnumber').val('');
+                                var result = "<span class='text-danger glyphicon glyphicon-remove' aria-hidden='true'><b> This Roll Number already exist!</b></span>";
+                            }
+                            else {
+                                var result = "<span class='text-success glyphicon glyphicon-ok' aria-hidden='true'> <b>Valid Roll Number</b></span>";
+                            }
+                        }
+                        jQuery("#rollnumber-availability-status").html(result);
+                        jQuery("#loaderIcon").hide();
+                    },
+                    error: function () { }
+                });
+
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        jQuery('#previewHolder').attr('src', e.target.result);
+                        jQuery('#previewHolder').show();
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            jQuery("#StudentImage").change(function () {
+                readURL(this);
+            });
+            jQuery("#ddlSession").prop("disabled", true);
+            jQuery("#ddlCourse").prop("disabled", true);
+            jQuery("#ddlDepartment").change(function () {
+                jQuery("#ddlCourse").empty();
+                var value = jQuery("#ddlDepartment option:selected").val();
+                if (value != "")
+                {
+                    jQuery("#ddlSession").empty();
+                    jQuery("#ddlSession").append('<option value="">Select Session</option>');
+                    jQuery("#ddlSession").prop("disabled", true);
+                    jQuery.ajax({
+                        url: '@Url.Action("getDepartmentCourse", "AdminHome")',
+                        type: "POST",
+                        data: { id: $(this).val() },
+                        success: function (data) {
+                            jQuery("#ddlCourse").append('<option value="">Select Course</option>');
+                            for (var i = 0; i < data.length; i++) {
+                              
+                                jQuery("#ddlCourse").append('<option value="' + data[i].CourseId + '">' + data[i].CourseCode + '</option>');
+                            }
+                            jQuery("#ddlCourse").prop("disabled", false);
+                        }
+
+                    });
+                }
+                else {
+                    jQuery("#ddlCourse").empty();
+                    jQuery("#ddlSession").empty();
+                    jQuery("#ddlCourse").append('<option value="">Select Course</option>');
+                    jQuery("#ddlSession").append('<option value="">Select Session</option>');
+                    jQuery("#ddlCourse").prop("disabled", true);
+                    jQuery("#ddlSession").prop("disabled", true);
+                }
+               
+
+            });
+            jQuery("#ddlCourse").change(function () {
+                jQuery("#ddlSession").empty();
+                var value = jQuery("#ddlCourse option:selected").val();
+                if (value != "") {
+                    jQuery.ajax({
+                        url: '@Url.Action("getCourseSession", "AdminHome")',
+                        type: "POST",
+                        data: { idc: jQuery(this).val(), idd: jQuery("#ddlDepartment").val() },
+                        success: function (data) {
+                            jQuery("#ddlSession").append('<option value="">Select Session</option>');
+                            for (var i = 0; i < data.length; i++) {
+                               
+                                jQuery("#ddlSession").append('<option value="' + data[i].SessionId + '">' + data[i].SessionStart + "-" + data[i].SessionEnd + '</option>');
+                            }
+                            jQuery("#ddlSession").prop("disabled", false);
+                        }
+
+                    });
+                }
+                else {
+                    jQuery("#ddlSession").empty();
+                    jQuery("#ddlSession").append('<option value="">Select Session</option>');
+                    jQuery("#ddlSession").prop("disabled", true);
+                }
+            });
+            jQuery(".result").fadeOut(10000);
+        });
+    </script>
+}

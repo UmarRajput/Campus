@@ -1,0 +1,83 @@
+﻿@model IEnumerable<CampusAcademiaApp.TblDepartment>
+
+@{
+    ViewBag.Title = "AllDepartments";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@if (TempData["Message"] != null)
+{
+    if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+    {
+        <div class="alert alert-danger result">
+            <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success result">
+            <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+        </div>
+    }
+}
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <h2 class="text-center alert-info">Department List</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        <p>
+            @Html.ActionLink("Add New Department", "AddDepartment", "AdminHome", null, new { @class = "btn btn-info" })
+        </p>
+        <table class="table table-hover">
+            <tr class="alert-info">
+                <th>
+                    @Html.DisplayName("Sr#")
+                </th>
+                <th>
+                    @Html.DisplayName("Department Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Department Code")
+                </th>
+                <th>
+                    @Html.DisplayName("Actions")
+                </th>
+            </tr>
+            @{
+                int count = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayName(count.ToString())
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartmentName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartmentCode)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditDepartment", new { id = item.DepartmentId }) |
+                        @Html.ActionLink("Delete", "deleteDepartment", new { id = item.DepartmentId })
+                    </td>
+                    @{
+                count++;
+                    }
+                </tr>
+            }
+
+        </table>
+
+        </div>
+    </div>
+        @section scripts{
+
+            <script type="text/javascript">
+                $.noConflict();
+                jQuery(function () {
+                    $('.result').fadeOut(10000);
+                });
+            </script>
+        }

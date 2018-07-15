@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblNews" table="tbl_news" lazy="true" >
+    <id name="NewsId" column="News_ID" />
+    <property name="NewsDescription">
+      <column name="News_Description" sql-type="varchar(200)" not-null="false" />
+    </property>
+    <property name="PostedDate">
+      <column name="Posted_Date" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="PostedBy">
+      <column name="Posted_By" sql-type="int(11)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

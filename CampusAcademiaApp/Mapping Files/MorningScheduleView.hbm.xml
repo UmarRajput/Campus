@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="MorningScheduleView" table="morningscheduleview" lazy="true" >
+    <id name="MorningtimeId" column="MorningTime_ID" />
+    <property name="MorningtimeDay1">
+      <column name="MorningTime_Day1" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="MorningtimeDay1startlec">
+      <column name="MorningTime_Day1StartLec" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="MorningtimeDay1endlec">
+      <column name="MorningTime_Day1EndLec" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="MorningtimeDay2">
+      <column name="MorningTime_Day2" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="MorningtimeDay2startlec">
+      <column name="MorningTime_Day2StartLec" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="MorningtimeDay2endlec">
+      <column name="MorningTime_Day2EndLec" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="TeacherFirstname">
+      <column name="Teacher_FirstName" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="TeacherLastname">
+      <column name="Teacher_LastName" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="SubjectTitle">
+      <column name="Subject_Title" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="SubjectCode">
+      <column name="Subject_Code" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="SubjectCredithour">
+      <column name="Subject_CreditHour" sql-type="int(11)" not-null="true" />
+    </property>
+    <property name="SessionStart">
+      <column name="Session_Start" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="SessionEnd">
+      <column name="Session_End" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="ClassSection">
+      <column name="Class_Section" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="CourseName">
+      <column name="Course_Name" sql-type="varchar(65)" not-null="false" />
+    </property>
+    <property name="CourseCode">
+      <column name="Course_Code" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="DepartmentName">
+      <column name="Department_Name" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="DepartmentCode">
+      <column name="Department_Code" sql-type="varchar(45)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

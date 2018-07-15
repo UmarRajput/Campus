@@ -1,0 +1,257 @@
+﻿@model CampusAcademiaApp.TimeTableModel
+
+@{
+    ViewBag.Title = "AddTimetableDetail";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@{
+    SelectListItem Monday = new SelectListItem
+    {
+        Value = "Monday",
+        Text = "Monday"
+    };
+
+    SelectListItem Tuesday = new SelectListItem
+    {
+        Value = "Tuesday",
+        Text = "Tuesday"
+    };
+    SelectListItem Wednesday = new SelectListItem
+    {
+        Value = "Wednesday",
+        Text = "Wednesday"
+    };
+    SelectListItem Thursday = new SelectListItem
+    {
+        Value = "Thursday",
+        Text = "Thursday"
+    };
+    SelectListItem Friday = new SelectListItem
+    {
+        Value = "Friday",
+        Text = "Friday"
+    };
+    SelectListItem Saturday = new SelectListItem
+    {
+        Value = "Saturday",
+        Text = "Saturday"
+    };
+
+    IList<SelectListItem> weekdays = new List<SelectListItem>();
+    weekdays.Add(Monday);
+    weekdays.Add(Tuesday);
+    weekdays.Add(Wednesday);
+    weekdays.Add(Thursday);
+    weekdays.Add(Friday);
+    weekdays.Add(Saturday);
+    SelectList dayslist = new SelectList(weekdays, "Value", "Text");
+    //get all  list to show in dropdown
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    // int id = (Int32)Session["DeptID"];
+    IList<TblSubject> List = oDAO.getAllDeptSubjects(27);
+    SelectList allsub = new SelectList(List, Constants.allModelProperties.SubjectId, Constants.allModelProperties.SubjectTitle);
+    IList<TblLecturetime> List1 = oDAO.ListDayTime();
+    SelectList allTime = new SelectList(List1, Constants.allModelProperties.LecturetimeTime, Constants.allModelProperties.LecturetimeTime);
+    IList<TblDepartment> deptList = oDAO.ListDepartments();
+    SelectList allDept = new SelectList(deptList, Constants.allModelProperties.DeptId, Constants.allModelProperties.DeptName);
+    IList<TeacherProfileView> TeacherList = oDAO.ListTeacher();
+    SelectList allTeacher = new SelectList(TeacherList, Constants.allModelProperties.TeacherId, Constants.allModelProperties.TeacherFirstname);
+}
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <h2 class="text-center alert-info">Create Time Table</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @using (Html.BeginForm("AddTimetableDetail", "AdminHome", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true)
+                <div class="col-md-offset-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TblMorningtime.SubjectId, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(model => model.TblMorningtime.SubjectId, allsub, "--Select Subject--", new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblMorningtime.SubjectId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TblMorningtime.TeacherId, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(model => model.TblMorningtime.TeacherId, allTeacher, "--Select Teacher--", new { @class = "form-control", @style = "width:300px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblMorningtime.TeacherId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p class="alert-info text-center" style="font-size:large">Morning Schedule</p>
+
+                </div>
+                <div class="row col-md-12">
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblMorningtime.MorningtimeDay1, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblMorningtime.MorningtimeDay1, dayslist, "--Select Day--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblMorningtime.MorningtimeDay1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblMorningtime.MorningtimeDay1startlec, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblMorningtime.MorningtimeDay1startlec, allTime, "--Select Time--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblMorningtime.MorningtimeDay1startlec, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblMorningtime.MorningtimeDay1endlec, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblMorningtime.MorningtimeDay1endlec, allTime, "--Select time--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblMorningtime.MorningtimeDay1endlec, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblMorningtime.MorningtimeDay2, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblMorningtime.MorningtimeDay2, dayslist, "--Select Day--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblMorningtime.MorningtimeDay2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblMorningtime.MorningtimeDay2startlec, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblMorningtime.MorningtimeDay2startlec, allTime, "--Select Time--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblMorningtime.MorningtimeDay2startlec, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblMorningtime.MorningtimeDay2endlec, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblMorningtime.MorningtimeDay2endlec, allTime, "--Select Time--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblMorningtime.MorningtimeDay2endlec, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>&nbsp;</div>
+                </div>
+                <div>
+                    <p class="alert-info text-center" style="font-size:large">Evening Schedule</p>
+                </div>
+                <div class="row col-md-12">
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblEveningtime.EveningtimeDay1, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblEveningtime.EveningtimeDay1, dayslist, "--Select Day--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblEveningtime.EveningtimeDay1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblEveningtime.EveningtimeDay1startlec, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblEveningtime.EveningtimeDay1startlec, allTime, "--Select Time--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblEveningtime.EveningtimeDay1startlec, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblEveningtime.EveningtimeDay1endlec, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblEveningtime.EveningtimeDay1endlec, allTime, "--Select Time--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblEveningtime.EveningtimeDay1endlec, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblEveningtime.EveningtimeDay2, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblEveningtime.EveningtimeDay2, dayslist, "--Select Day--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblEveningtime.EveningtimeDay2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblEveningtime.EveningtimeDay2startlec, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblEveningtime.EveningtimeDay2startlec, allTime, "--Select Time--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblEveningtime.EveningtimeDay2startlec, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TblEveningtime.EveningtimeDay2endlec, new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.TblEveningtime.EveningtimeDay2endlec, allTime, "--Select Time--", new { @class = "form-control", @style = "width:150px;height:38px;text-align:center;" })
+                            <div class="clearfix"></div>
+                            @Html.ValidationMessageFor(model => model.TblEveningtime.EveningtimeDay2endlec, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-5 col-md-7">
+                        <input type="submit" value="Save" class="btn btn-lg btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-offset-2">
+                    @Html.Label("Department", new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownList(Constants.allModelProperties.DeptId, allDept, "--Select Department--", new { @style = "width:300px;height:38px;text-align:center;", @id = "ddlDepartment" })
+                        <div class="clearfix"></div>
+                        @Html.ValidationMessage(Constants.allModelProperties.DeptId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $.noConflict();
+        jQuery(function () {
+            jQuery('.result').fadeOut(10000);
+        });
+    </script>
+}

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CampusAcademiaApp.TblNews>
+
+@{
+    ViewBag.Title = "NewsList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>NewsList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@if (TempData["Message"] != null)
+{
+    if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+    {
+        <div class="alert alert-danger result">
+            <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success result">
+            <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+        </div>
+    }
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NewsId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NewsDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostedBy)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NewsId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NewsDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostedBy)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "DeleteNews", new { id=item.NewsId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,48 @@
+﻿@model CampusAcademiaApp.TblNews
+
+@{
+    ViewBag.Title = "AddNews";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>AddNews</h2>
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+
+@using (Html.BeginForm("AddNews", "AdminHome", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>TblNews</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewsDescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.NewsDescription, new { rows = "6", cols = "50" })
+                @Html.ValidationMessageFor(model => model.NewsDescription)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-lg btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

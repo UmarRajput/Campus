@@ -1,0 +1,68 @@
+﻿@model CampusAcademiaApp.TblPhotogallery
+
+@{
+    ViewBag.Title = "uploadExistEventImage";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@{
+    //get all Event Name list to show in dropdown
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    IList<TblPhotofoldername> eventList = oDAO.eventNameList();
+    SelectList allDept = new SelectList(eventList, Constants.allModelProperties.PhotofoldernameId, Constants.allModelProperties.FolderName);
+}
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h2 class="text-center">Upload Event Images</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @using (Html.BeginForm("uploadExistEventImage", "AdminHome", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+    <div class="form-horizontal col-md-offset-2" style="margin-top:60px">
+
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhotofoldernameId, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.PhotofoldernameId, allDept, "--Select Department--", new { @style = "width:300px;height:38px;text-align:center;", @id = "ddlDepartment" })
+               <div class="clearfix"></div>
+                 @Html.ValidationMessageFor(model => model.PhotofoldernameId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.Image, new { @class = "form-control", @style = "width:300px;", @type = "file", @multiple = "multiple" })
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Upload" class="btn btn-success" />
+                @Html.ActionLink(" Back ", "AllDepartments", "AdminHome", null, new { @class = "btn btn-success" })
+            </div>
+        </div>
+    </div>
+        }
+
+       </div>
+    </div>
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+            <script>
+                $.noConflict();
+                jQuery(function () {
+                    jQuery('.result').fadeOut(10000);
+                });
+            </script>
+        }

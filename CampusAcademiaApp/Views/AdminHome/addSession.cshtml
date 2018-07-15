@@ -1,0 +1,127 @@
+﻿@model CampusAcademiaApp.TblSession
+
+@{
+    ViewBag.Title = "addSession";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@Styles.Render("~/Content/css")
+@{
+    //get all department list to show in dropdown
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    IList<TblDepartment> deptList = oDAO.ListDepartments();
+    SelectList allDept = new SelectList(deptList, Constants.allModelProperties.DeptId, Constants.allModelProperties.DeptName);
+}
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h2 class="text-center">Register Batch Session</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @using (Html.BeginForm("addSession", "AdminHome", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+    <div class="form-horizontal col-lg-offset-3" style="margin-top:60px">
+
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DepartmentId, allDept, "--Select Department--", new { @style = "width:300px;height:38px;text-align:center;", @id = "ddlDepartment" })
+                <div class="clearfix"></div>
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CourseId, new SelectList(Enumerable.Empty<SelectListItem>(), Constants.allModelProperties.CourseId, Constants.allModelProperties.CourseName), "--Select Course--", new { @style = "width:300px;height:38px;text-align:center;", @id = "ddlCourse" })
+               <div class="clearfix"></div>
+                 @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SessionStart, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.SessionStart, new { @class = "form-control", @style = "width:300px;", @maxlength = '4', @placeholder = "e.g 2016" })
+                @Html.ValidationMessageFor(model => model.SessionStart, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SessionEnd, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.SessionEnd, new { @class = "form-control", @style = "width:300px;", @maxlength = '4', @placeholder = "e.g 2016" })
+                @Html.ValidationMessageFor(model => model.SessionEnd, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SessionSections, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Label("Yes")
+                @Html.RadioButtonFor(model => model.SessionSections, "Yes")
+                @Html.Label("No")
+                @Html.RadioButtonFor(model => model.SessionSections, "NO", new { @checked = "true" })
+                @Html.ValidationMessageFor(model => model.SessionSections)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <input type="submit" value="Save" class="btn btn-success" />
+                @Html.ActionLink(" Back ", "ListSession", "AdminHome", null, new { @class = "btn btn-success" })
+            </div>
+        </div>
+    </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $.noConflict();
+        jQuery('.result').fadeOut(10000);
+        jQuery(document).ready(function ()
+        {
+            jQuery("#ddlCourse").prop("disabled", true);
+            jQuery("#ddlDepartment").change(function () {
+                jQuery("#ddlCourse").empty();
+                var value = jQuery("#ddlDepartment option:selected").val();
+                if (value != "") {
+                    jQuery.ajax({
+                        url: '@Url.Action("getDepartmentCourse", "AdminHome")',
+                        type: "POST",
+                        data: { id: jQuery(this).val() },
+                        success: function (data) {
+                            jQuery("#ddlCourse").append('<option value="">Select Course</option>');
+                            for (var i = 0; i < data.length; i++) {
+                                //var markup = "<option value='0'>Select City</option>";
+                                //var opt = new Option(data[i].CourseId, data[i].CourseName);
+                                //$("#ddlCourse").append(opt);
+                                jQuery("#ddlCourse").append('<option value="' + data[i].CourseId + '">' + data[i].CourseCode + '</option>');
+                            }
+                            jQuery("#ddlCourse").prop("disabled", false);
+                        }
+
+                    });
+                }
+                else {
+                    jQuery("#ddlCourse").empty();
+                    jQuery("#ddlCourse").append('<option value="">Select Course</option>');
+                    jQuery("#ddlCourse").prop("disabled", true);
+                   
+                }
+
+            });
+        });
+    </script>
+}

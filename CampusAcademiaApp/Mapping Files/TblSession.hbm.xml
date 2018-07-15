@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblSession" table="tbl_session" lazy="true" >
+    <id name="SessionId" column="Session_ID" >
+      <generator class="identity"/>
+    </id>
+    <property name="SessionStart">
+      <column name="Session_Start" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="SessionEnd">
+      <column name="Session_End" sql-type="varchar(45)" not-null="true" />
+    </property>
+    <property name="SessionSections">
+      <column name="Session_Sections" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="DepartmentId">
+      <column name="Department_ID" sql-type="int(3)" not-null="true" />
+    </property>
+    <property name="CourseId">
+      <column name="Course_ID" sql-type="int(3)" not-null="true" />
+    </property>
+    <property name="SessionCreateddate">
+      <column name="Session_CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblTeacher" table="tbl_teacher" lazy="true" >
+    <id name="TeacherId" column="Teacher_ID" >
+      <generator class="identity"/>
+    </id>
+    <property name="TeacherFirstname">
+      <column name="Teacher_FirstName" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="TeacherLastname">
+      <column name="Teacher_LastName" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="TeacherGender">
+      <column name="Teacher_Gender" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="TeacherDob">
+      <column name="Teacher_DOB" sql-type="date" not-null="false" />
+    </property>
+    <property name="TeacherEmail">
+      <column name="Teacher_Email" sql-type="varchar(65)" not-null="false" />
+    </property>
+    <property name="TeacherPhonenumber">
+      <column name="Teacher_PhoneNumber" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="TeacherAddress">
+      <column name="Teacher_Address" sql-type="varchar(150)" not-null="false" />
+    </property>
+    <property name="DepartmentId">
+      <column name="Department_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="TeacherImage">
+      <column name="Teacher_Image" sql-type="varchar(150)" not-null="false" />
+    </property>
+    <property name="TeacherUserName">
+      <column name="Teacher_UserName" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="TeacherPassword">
+      <column name="Teacher_Password" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="ModifyDate">
+      <column name="Modify_Date" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="Created_Date" sql-type="datetime" not-null="false" />
+    </property>
+   <property name="TeacherValid">
+      <column name="Teacher_Valid" sql-type="varchar(45)" not-null="false" />
+    </property>
+     <property name="TeacherDesignation">
+      <column name="Teacher_Designation" sql-type="varchar(45)" not-null="false" />
+    </property>
+     <property name="TeacherJobStatus">
+      <column name="Teacher_JobStatus" sql-type="varchar(45)" not-null="false" />
+    </property>
+     <property name="TeacherIsHOD">
+      <column name="Teacher_IsHOD" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="TeacherApproveBy">
+      <column name="Teacher_ApproveBy" sql-type="varchar(45)" not-null="false" />
+    </property>
+  <property name="TeacherHasApp">
+      <column name="Teacher_HasApp" sql-type="varchar(45)" not-null="false" />
+    </property>
+  <property name="TeacherAppStatus">
+      <column name="Teacher_AppStatus" sql-type="varchar(45)" not-null="false" />
+    </property>
+   <property name="TeacherFollowers">
+      <column name="Teacher_Followers" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="TeachergcmToken">
+      <column name="Teacher_gcmToken" sql-type="varchar(65)" not-null="false" />
+    </property>
+    <property name="TeacherLoginToken">
+      <column name="Teacher_LoginToken" sql-type="varchar(65)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

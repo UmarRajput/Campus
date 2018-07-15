@@ -1,0 +1,94 @@
+﻿@model IEnumerable<CampusAcademiaApp.DeptSubjectView>
+
+@{
+    ViewBag.Title = "ListSubjects";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+    {
+        <div class="alert alert-danger result">
+            <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success result">
+            <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+        </div>
+    }
+}
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <h2 class="text-center alert-info">Department List</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        <p>
+            @Html.ActionLink("Add New Subject", "AddSubject", "AdminHome", null, new { @class = "btn btn-info" })
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayName("Sr#")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SubjectTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SubjectCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SubjectCredithour)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DepartmentName)
+                </th>
+                <th></th>
+            </tr>
+            @{
+                int count = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayName(count.ToString())
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubjectTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubjectCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubjectCredithour)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartmentName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditSubject", new { id = item.SubjectId }) |
+                        @Html.ActionLink("Delete", "deleteSubject", new { id = item.SubjectId })
+                    </td>
+                    @{
+                count++;
+                    }
+                </tr>
+            }
+
+        </table>
+      
+        </div>
+    </div>
+          @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+
+            <script>
+                $(function () {
+                    $('.result').fadeOut(10000);
+                });
+            </script>
+        }

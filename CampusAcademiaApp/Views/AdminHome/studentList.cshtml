@@ -1,0 +1,160 @@
+﻿@model IEnumerable<CampusAcademiaApp.TblStudent>
+
+@{
+    ViewBag.Title = "studentList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>studentList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentRollnumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentGender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentDob)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentPhonenumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartmentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentSection)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentClasstime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentPassword)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentAppstatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentValid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModifyDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentHasapp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentApproveby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentGcmtoken)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentLogintoken)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentRollnumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentGender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentDob)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentPhonenumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartmentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentSection)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentClasstime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentPassword)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentImage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentAppstatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentValid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModifyDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentHasapp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentApproveby)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentGcmtoken)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentLogintoken)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

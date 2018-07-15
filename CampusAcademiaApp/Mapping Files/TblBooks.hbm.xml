@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblBooks" table="tbl_books" lazy="true" >
+    <id name="BookId" column="Book_ID" />
+    <property name="BookTitle">
+      <column name="Book_Title" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="BookAuthor">
+      <column name="Book_Author" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="File">
+      <column name="File" sql-type="varchar(100)" not-null="false" />
+    </property>
+    <property name="BookDownloads">
+      <column name="Book_Downloads" sql-type="int(11)" not-null="false" />
+    </property>
+    <property name="DepartmentId">
+      <column name="Department_ID" sql-type="int(11)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

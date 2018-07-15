@@ -1,0 +1,83 @@
+﻿@model CampusAcademiaApp.TblSubject
+
+@{
+    ViewBag.Title = "EditSubject";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@{
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    IList<TblDepartment> deptList = oDAO.ListDepartments();
+    SelectList allDept = new SelectList(deptList, Constants.allModelProperties.DeptId, Constants.allModelProperties.DeptName);
+}
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <h2 class="text-center alert-info">Subject Registration</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @using (Html.BeginForm("EditSubject", "AdminHome", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal col-lg-offset-2" style="margin-top:60px">
+                @Html.HiddenFor(model=>model.SubjectId)
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    @Html.Label("Department", new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(model => model.DepartmentId, allDept, new { @style = "width:300px;height:38px;text-align:center;" })
+                        <div class="clearfix"></div>
+                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Subject Title", new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.SubjectTitle, new { @class = "form-control", @style = "width:300px;" })
+                        @Html.ValidationMessageFor(model => model.SubjectTitle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Subject Code", new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.SubjectCode, new { @class = "form-control", @style = "width:300px;" })
+                        @Html.ValidationMessageFor(model => model.SubjectCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Subject Credit Hour", new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.SubjectCredithour, new { @class = "form-control", @style = "width:300px;", @maxlength = '1' })
+                        @Html.ValidationMessageFor(model => model.SubjectCredithour, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" value="Update" class="btn btn-info" />
+                        @Html.ActionLink(" Back ", "ListSubjects", "AdminHome", null, new { @class = "btn btn-info" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $.noConflict();
+        jQuery(function () {
+            jQuery('.result').fadeOut(10000);
+        });
+    </script>
+}

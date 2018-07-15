@@ -1,0 +1,56 @@
+﻿@model CampusAcademiaApp.TblLecturetime
+
+@{
+    ViewBag.Title = "AddTime";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <h2 class="text-center alert-info">Add Time For Lectures</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @using (Html.BeginForm("AddTime", "AdminHome", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal col-md-offset-2" style="margin-top:70px">
+       
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LecturetimeTime, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.LecturetimeTime, new { @class = "form-control", @style = "width:300px;", @placeholder = "e.g 12:00 AM" })
+                @Html.ValidationMessageFor(model => model.LecturetimeTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Submit" class="btn btn-success" />
+                @Html.ActionLink(" Back ", "ListDayTime", "AdminHome", null, new { @class = "btn btn-success" })
+            </div>
+        </div>
+    </div>
+}
+        </div>
+    </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+            <script>
+                $.noConflict();
+                jQuery(function () {
+                    jQuery('.result').fadeOut(10000);
+                });
+            </script>
+        }

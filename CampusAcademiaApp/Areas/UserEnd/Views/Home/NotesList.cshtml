@@ -1,0 +1,116 @@
+﻿@model IEnumerable<CampusAcademiaApp.TblNotes>
+
+@{
+    ViewBag.Title = "NotesList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>NotesList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@if (TempData["Message"] != null)
+{
+    if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+    {
+        <div class="alert alert-danger result">
+            <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success result">
+            <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+        </div>
+    }
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NotesId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NotesTopicname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NotesFile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubjectId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartmentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedNotes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NotesPosteddate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NotesDownloads)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NotesId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NotesTopicname)
+        </td>
+        <td>
+           
+            <a href="DownloadNotes/@item.NotesId">   @Html.DisplayFor(modelItem => item.NotesFile)</a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubjectId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartmentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedNotes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NotesPosteddate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NotesDownloads)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

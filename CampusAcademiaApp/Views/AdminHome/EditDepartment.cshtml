@@ -1,0 +1,63 @@
+﻿@model CampusAcademiaApp.TblDepartment
+
+@{
+    ViewBag.Title = "EditDepartment";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h2 class="text-center">Update Department</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @using (Html.BeginForm("EditDepartment", "AdminHome", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal col-lg-offset-2" style="margin-top:60px">
+
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model=>model.DepartmentId)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DepartmentName, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.DepartmentName, new { @class = "form-control", @style = "width:300px;", @placeholder = "Department Name" })
+                        @Html.ValidationMessageFor(model => model.DepartmentName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DepartmentCode, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.DepartmentCode, new { @class = "form-control", @style = "width:300px;", @placeholder = "Department Code" })
+                        @Html.ValidationMessageFor(model => model.DepartmentCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" value="Update" class="btn btn-info" />
+                        @Html.ActionLink(" Back ", "AllDepartments", "AdminHome", null, new { @class = "btn btn-info" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $('.result').fadeOut(10000);
+        });
+    </script>
+
+}

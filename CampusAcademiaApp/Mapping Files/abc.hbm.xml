@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="abc" table="abc" lazy="true" >
+    <id name="DepartmentId" column="Department_ID">
+    </id>
+     
+    <property name="DepartmentName">
+      <column name="Department_Name" sql-type="varchar(45)" not-null="false" />
+    </property>
+    <property name="CourseName">
+      <column name="Course_Name" sql-type="varchar(65)" not-null="false" />
+    </property>
+    <property name="CourseCode">
+      <column name="Course_Code" sql-type="varchar(45)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

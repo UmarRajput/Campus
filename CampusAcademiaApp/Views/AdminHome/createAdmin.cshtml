@@ -1,0 +1,197 @@
+﻿@model CampusAcademiaApp.TblAdmin
+
+@{
+    ViewBag.Title = "createAdmin";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@Styles.Render("~/Content/css")
+@{
+    //get all department list to show in dropdown
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    IList<TblDepartment> deptList = oDAO.ListDepartments();
+    SelectList allDept = new SelectList(deptList, Constants.allModelProperties.DeptId, Constants.allModelProperties.DeptName);
+
+}
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <h2 class="text-center">Sign Up</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+       @using (Html.BeginForm("createAdmin", "AdminHome", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal col-lg-offset-2" style="margin-top:60px">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdminName, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.AdminName, new { @class = "form-control", @style = "width:300px;", @placeholder = "Enter Name" })
+                @Html.ValidationMessageFor(model => model.AdminName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdminGender, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.Label("Male", new { @class = "control-label" })
+                @Html.RadioButtonFor(model => model.AdminGender, "Male", new { @Checked = "checked" })
+                @Html.Label("Female", new { @class = "control-label" })
+                @Html.RadioButtonFor(model => model.AdminGender, "Female")
+                @Html.ValidationMessageFor(model => model.AdminGender)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdminDob, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.AdminDob, new { @class = "form-control", @style = "width:300px;background:white;", @id = "datepiker", @readonly = "true" })
+                @Html.ValidationMessageFor(model => model.AdminDob, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdminEmail, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.AdminEmail, new { @class = "form-control", @style = "width:300px;", @placeholder = "example@someone.com" })
+                @Html.ValidationMessageFor(model => model.AdminEmail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdminPhonenumber, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.AdminPhonenumber, new { @class = "form-control", @style = "width:300px;", @placeholder = "e.g 03001234567" })
+                @Html.ValidationMessageFor(model => model.AdminPhonenumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdminUsername, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.AdminUsername, new { @class = "form-control", @style = "width:300px;", @id = "username", @placeholder = "User Name" })
+                <p style="display:none" id="loaderIcon"><i class="fa fa-refresh fa-spin"></i></p>
+                <span id="user-availability-status"></span>
+                @Html.ValidationMessageFor(model => model.AdminUsername, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdminPassword, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.PasswordFor(model => model.AdminPassword, new { @class = "form-control", @style = "width:300px;", @placeholder = "Enter Password" })
+                @Html.ValidationMessageFor(model => model.AdminPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdminImage, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                <img id="previewHolder" alt="Your Image" width="150px" height="150px" class="img-circle" />
+                <input type="file" id="AdminImage" name="AdminImage" accept="image/*" />
+
+                @Html.ValidationMessageFor(model => model.AdminImage)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.DepartmentId, allDept, "--Select Department--", new { @style = "width:300px;height:38px;text-align:center;" })
+                <div class="clearfix"></div>
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdminUsertype, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.Label(Constants.allModelProperties.SuperAdminType)
+                @Html.RadioButtonFor(model => model.AdminUsertype, Constants.allModelProperties.SuperAdminType)
+                @Html.Label(Constants.allModelProperties.AdminType)
+                @Html.RadioButtonFor(model => model.AdminUsertype, Constants.allModelProperties.AdminType, new { @checked = "checked" })
+                @Html.ValidationMessageFor(model => model.AdminUsertype)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Submit" class="btn btn-success" />
+                @Html.ActionLink(" Back ", "listAdmins", "AdminHome", null, new { @class = "btn btn-success" })
+            </div>
+        </div>
+    </div>
+}
+    </div>
+</div>
+@section Scripts {
+   @Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $.noConflict();
+    jQuery(function () {
+        $('.result').fadeOut(10000);
+    });
+    jQuery(document).ready(function () {
+        jQuery('#previewHolder').hide();
+        jQuery("#loaderIcon").hide;
+
+
+        jQuery("#datepiker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showAnim: "clip"
+        });
+        jQuery("#username").blur(function () {
+                jQuery("#loaderIcon").show();
+                jQuery.ajax({
+                    url: '@Url.Action("checkAdminUserName", "AdminHome")',
+                    data: { username: jQuery(this).val() },
+                    type: "POST",
+                    success: function (data) {
+                        if (data == 'Required') {
+                            var result = "<span class='text-danger'>User Name </span>";
+                        }
+                        else {
+                            if (data != '') {
+                                jQuery('#username').val('');
+                                var result = "<span class='text-danger glyphicon glyphicon-remove' aria-hidden='true'><b> Username Not Available.</b></span>";
+                            }
+                            else {
+                                var result = "<span class='text-success glyphicon glyphicon-ok' aria-hidden='true'> <b>Username Available.</b></span>";
+                            }
+                        }
+                        jQuery("#user-availability-status").html(result);
+                        jQuery("#loaderIcon").hide();
+                    },
+                    error: function () { }
+                });
+           
+            });
+        
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    jQuery('#previewHolder').attr('src', e.target.result);
+                    jQuery('#previewHolder').show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        jQuery("#AdminImage").change(function () {
+            readURL(this);
+        });
+
+    });
+    </script>
+}

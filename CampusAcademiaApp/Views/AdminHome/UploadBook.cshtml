@@ -1,0 +1,117 @@
+﻿@model CampusAcademiaApp.TblBooks
+
+@{
+    ViewBag.Title = "UploadBook";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@Styles.Render("~/Content/css")
+@{
+    //get all department list to show in dropdown
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    IList<TblDepartment> deptList = oDAO.ListDepartments();
+    SelectList allDept = new SelectList(deptList, Constants.allModelProperties.DeptId, Constants.allModelProperties.DeptName);
+}
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h2 class="text-center">Upload Book</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @using (Html.BeginForm("UploadBook", "AdminHome", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+    <div class="form-horizontal col-lg-offset-3" style="margin-top:60px">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookTitle, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.BookTitle, new { @class = "form-control", @style = "width:300px;", @placeholder = "Book Name" })
+                @Html.ValidationMessageFor(model => model.BookTitle, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookAuthor, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.BookAuthor, new { @class = "form-control", @style = "width:300px;", @placeholder = "Author Name" })
+                @Html.ValidationMessageFor(model => model.BookAuthor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.File, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="File" name="File" accept="application/pdf" />
+                @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Department", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DepartmentId, allDept, "--Select Department--", new { @style = "width:300px;height:38px;text-align:center;", @id = "ddlDepartment" })
+               <div class="clearfix"></div>
+                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <input type="submit" value="Upload" class="btn btn-success" />
+                @Html.ActionLink(" Back ", "BookList", "AdminHome", null, new { @class = "btn btn-success" })
+            </div>
+        </div>
+    </div>
+        }
+        </div>
+    </div>
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+
+            <script>
+                $.noConflict();
+                jQuery("#File").change(function (submitEvent) {
+                    var fileSize = this.files[0];
+                    var sizeInMb = (fileSize.size / 1024) / 1024;
+                    var sizeLimit = 8;
+                    if (sizeInMb > sizeLimit) {
+                        alert('Your File Size' + sizeInMb + 'MB File size must be less than 8MB');
+                        jQuery("#File").val('');
+                    }
+                    else {
+                        submitEvent.preventDefault();
+                    }
+                    var filename = jQuery("#File").val();
+                    var extension = filename.replace(/^.*\./, '');
+                    if (extension == filename) {
+                        extension = '';
+                    } else {
+                        extension = extension.toLowerCase();
+                    }
+                    switch (extension) {
+                        case 'pdf':
+                            // case 'doc':
+                            // case 'docx':
+                            // case 'ppt':
+                            // case 'pptx':
+                            // case 'rtf':
+                            // case 'txt':
+                            break;
+
+                        default:
+                            alert('Inavlid file type')
+                            jQuery("#File").val('');
+                            submitEvent.preventDefault();
+                    }
+                });
+            </script>
+        }

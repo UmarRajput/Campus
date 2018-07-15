@@ -1,0 +1,126 @@
+﻿@model IEnumerable<CampusAcademiaApp.TblAdmin>
+
+@{
+    ViewBag.Title = "listAdmins";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h2 class="text-center">Admin List</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @if (TempData["Message"] != null)
+        {
+            if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+            {
+                <div class="alert alert-danger result">
+                    <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-success result">
+                    <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+                </div>
+            }
+        }
+        @{int count = 1;
+          }
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            @foreach (var item in Model)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading+@count">
+                        <h3 class="panel-title text-black">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@count" aria-expanded="true" aria-controls="@count" class="text-bold text-center">
+                                @count    @Html.DisplayFor(modelItem => item.AdminName)
+                            </a>
+                        </h3>
+                    </div>
+                    <div id="@count" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading+@count">
+                        <div class="panel-body">
+                            <div class="col-lg-5 col-lg-offset-3">
+                                <div class="box box-primary">
+                                    <div class="box-body box-profile">
+                                        <img class="profile-user-img img-responsive img-circle" src="~/Uploads/AdminImage/@item.AdminImage" alt="User profile picture">
+                                        <h3 class="profile-username text-center">@Html.DisplayFor(modelItem => item.AdminName)</h3>
+                                        <p class="text-muted text-center">Software Engineer</p>
+
+                                        <ul class="list-group list-group-unbordered">
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.AdminName)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.AdminName)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.AdminGender)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.AdminGender)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.AdminDob)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.AdminDob)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.AdminEmail)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.AdminEmail)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.AdminPhonenumber)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.AdminPhonenumber)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.AdminUsername)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.AdminUsername)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.AdminPassword)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.AdminPassword)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.DepartmentId)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.DepartmentId)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.AdminUsertype)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.AdminUsertype)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.AdminValid)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.AdminValid)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.ModifyDate)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.ModifyDate)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.CreatedDate)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.CreatedDate)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.CreatedBy)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.CreatedBy)</b>
+                                            </li>
+                       
+                                        </ul>
+                                        <div class="col-md-offset-4">
+                                            @Html.ActionLink("Edit", "EditAdmin", new { @id = item.AdminId }, new { @class = "btn btn-info" })
+                                            @Html.ActionLink("Delete", "deleteAdmin", new { @id = item.AdminId }, new { @class = "btn btn-info" })
+                                        </div>
+
+                                    </div><!-- /.box-body -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                count++;
+            }
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $.noConflict();
+        jQuery(function () {
+            $('.result').fadeOut(10000);
+        });
+            jQuery(document).ready(function () {
+           jQuery("#@count").collapse({
+
+                    toggle:true
+                });
+
+            });
+    </script>
+}

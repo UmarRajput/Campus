@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblLecturetime" table="tbl_lecturetime" lazy="true" >
+    <id name="LecturetimeId" column="LectureTime_ID" />
+    <property name="LecturetimeTime">
+      <column name="LectureTime_Time" sql-type="varchar(45)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="CampusAcademiaApp" namespace="CampusAcademiaApp" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TblTimetable" table="tbl_timetable" lazy="true" >
+    <id name="TimetableId" column="TimeTable_ID">
+      <generator class="identity"/>
+    </id>
+    <property name="DepartmentId">
+      <column name="Department_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="CourseId">
+      <column name="Course_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="SessionId">
+      <column name="Session_ID" sql-type="int(3)" not-null="false" />
+    </property>
+    <property name="ClassSection">
+      <column name="Class_Section" sql-type="varchar(45)" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

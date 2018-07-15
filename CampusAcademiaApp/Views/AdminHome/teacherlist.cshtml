@@ -1,0 +1,142 @@
+﻿@model IEnumerable<CampusAcademiaApp.TeacherProfileView>
+
+@{
+    ViewBag.Title = "teacherlist";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h2>Teacher List</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        @if (TempData["Message"] != null)
+        {
+            if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+            {
+                <div class="alert alert-danger result">
+                    <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-success result">
+                    <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+                </div>
+            }
+        }
+        @{int count = 1;}
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            @foreach (var item in Model)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading+@count">
+                        <h3 class="panel-title">
+                            <a role="button"  data-toggle="collapse" data-parent="#accordion" href="#@count" aria-expanded="true" aria-controls="@count" class="text-bold text-center">
+                            @count    @Html.DisplayFor(modelItem => item.TeacherFirstname)  @Html.DisplayFor(modelItem => item.TeacherLastname)
+                            </a>
+                        </h3>
+                    </div>
+                    <div id="@count" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading+@count">
+                        <div class="panel-body">
+                            <div class="col-lg-5 col-lg-offset-3">
+                                <div class="box box-primary">
+                                    <div class="box-body box-profile">
+                                        <img class="profile-user-img img-responsive img-circle" src="~/Uploads/TeacherImages/@item.TeacherImage" alt="User profile picture">
+                                        <h3 class="profile-username text-center">@Html.DisplayFor(modelItem => item.TeacherFirstname)</h3>
+                                        <p class="text-muted text-center">Software Engineer</p>
+
+                                        <ul class="list-group list-group-unbordered">
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherFirstname)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherFirstname)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherLastname)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherLastname)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherGender)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherGender)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherDob)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherDob)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherEmail)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherEmail)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherPhonenumber)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherPhonenumber)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.DepartmentName)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.DepartmentName)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherFollowers)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherFollowers)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherAppStatus)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherAppStatus)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherHasApp)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherHasApp)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.ModifyDate)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.ModifyDate)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.CreatedDate)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.CreatedDate)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherValid)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherValid)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherUserName)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherUserName)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherPassword)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherPassword)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherJobStatus)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherJobStatus)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherDesignation)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherDesignation)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>@Html.DisplayNameFor(model => model.TeacherApproveBy)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherApproveBy)</b>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b class="pull-left margin-r-5">@Html.DisplayNameFor(model => model.TeacherAddress)</b> <b class="pull-right">@Html.DisplayFor(modelItem => item.TeacherAddress)</b>
+                                            </li>
+                                        </ul>
+                                        @Html.ActionLink("Edit", "EditTeacherByAdmin", new { @id = item.TeacherId }, new { @class = "btn btn-info" })
+                                        @Html.ActionLink("Select", "Delete", new { @id = item.TeacherId }, new { @class = "btn btn-info" })
+                                        @Html.ActionLink("Delete", "deleteTeacher", new { @id = item.TeacherId }, new { @class = "btn btn-info" })
+
+
+                                    </div><!-- /.box-body -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                count++;
+            }
+        </div>
+
+    </div>
+    </div>
+    
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jquery")
+
+        <script>
+            $.noConflict();
+            jQuery(document).ready(function () {
+           jQuery("#@count").collapse({
+                   
+                    toggle:true
+                });
+               
+                jQuery('.result').fadeOut(2000);
+
+            });
+        </script>
+    }

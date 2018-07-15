@@ -1,0 +1,140 @@
+﻿@model CampusAcademiaApp.TblNotes
+
+@{
+    ViewBag.Title = "UploadNotes";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>UploadNotes</h2>
+@{
+    //get all department list to show in dropdown
+    DAO oDAO = new DAO(MvcApplication.SF.GetCurrentSession());
+    IList<TblDepartment> deptList = oDAO.ListDepartments();
+    SelectList allDept = new SelectList(deptList, Constants.allModelProperties.DeptId, Constants.allModelProperties.DeptName);
+}
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger result">
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Message</p>
+    </div>
+}
+@using (Html.BeginForm("UploadNotes", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>TblNotes</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DepartmentId, allDept, "--Select Department--", new { @style = "width:300px;height:38px;text-align:center;", @id = "ddlDepartment" })
+                @Html.ValidationMessageFor(model => model.DepartmentId)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubjectId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.DropDownListFor(model => model.SubjectId, new SelectList(Enumerable.Empty<SelectListItem>(), Constants.allModelProperties.CourseId, Constants.allModelProperties.CourseName), "--Select Subject--", new { @style = "width:300px;height:38px;text-align:center;", @id = "ddlSubject" })
+                @Html.ValidationMessageFor(model => model.SubjectId)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NotesTopicname, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.NotesTopicname, new { @class = "form-control", @style = "width:300px;"})
+                @Html.ValidationMessageFor(model => model.NotesTopicname)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NotesFile, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="NotesFile" name="NotesFile" accept=".xlsx,.xls,image/*,.doc, .docx.,.ppt, .pptx,.txt,.pdf" />
+                @Html.ValidationMessageFor(model => model.NotesFile)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Upload" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $("#ddlSubject").prop("disabled", true);
+            $("#ddlDepartment").change(function () {
+                $("#ddlSubject").empty();
+                $.ajax({
+                    url:'@Url.Action("getDepartmentSubjects", "Home")',
+                    type: "POST",
+                    data:{id:$(this).val()},
+                    success:function (data)
+                    {
+                        for (var i = 0; i < data.length; i++)
+                        {
+                            //var markup = "<option value='0'>Select City</option>";
+                        //var opt = new Option(data[i].CourseId, data[i].CourseName);
+                            //$("#ddlCourse").append(opt);
+                            $("#ddlSubject").append('<option value="' + data[i].SubjectId + '">' + data[i].SubjectTitle + '</option>');
+                        }
+                        $("#ddlSubject").prop("disabled", false);
+                    }
+
+                });
+
+            });
+            $("#NotesFile").change(function (submitEvent) {
+                var fileSize = this.files[0];
+                var sizeInMb = (fileSize.size / 1024) / 1024;
+                var sizeLimit = 8;
+                if (sizeInMb > sizeLimit) {
+                    alert('Your File Size' + sizeInMb + 'MB File size must be less than 8MB');
+                }
+                else {
+                    submitEvent.preventDefault();
+                }
+                var filename = $("#NotesFile").val();
+                var extension = filename.replace(/^.*\./, '');
+                if (extension == filename) {
+                    extension = '';
+                }
+                else {
+                    extension = extension.toLowerCase();
+                }
+                switch (extension) {
+                        case 'pdf':
+                         case 'doc':
+                         case 'docx':
+                         case 'ppt':
+                         case 'pptx':
+                         case 'rtf':
+                        case 'txt':
+                        case 'xlsx':
+                        case 'xls':
+                        case 'gif':
+                        case 'jpg':
+                        case 'png':
+                        break;
+                    default:
+                        alert('Inavlid file type')
+                        submitEvent.preventDefault();
+                }
+            });
+            $('.result').fadeOut(10000);
+        });
+    </script>
+}

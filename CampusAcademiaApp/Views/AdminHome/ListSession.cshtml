@@ -1,0 +1,105 @@
+﻿@model IEnumerable<CampusAcademiaApp.DeptCourseSession>
+
+@{
+    ViewBag.Title = "ListSession";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@if (TempData["Message"] != null)
+{
+    if (TempData["MessageType"] == Constants.allModelProperties.MessageTypeError)
+    {
+        <div class="alert alert-danger result">
+            <p><span class="glyphicon glyphicon-warning-sign"></span> @TempData["Message"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success result">
+            <p><span class="glyphicon glyphicon-ok-circle"></span> @TempData["Message"]</p>
+        </div>
+    }
+}
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h2 class="text-center">Batch Session List</h2>
+    </div>
+    <div class="panel-body" style="min-height:700px">
+        <p>
+            @Html.ActionLink("Add New Session", "addSession", "AdminHome", null, new { @class = "btn btn-info" })
+        </p>
+        <table class="table table-hover">
+            <tr class="alert-info">
+                <th>
+                    @Html.DisplayName("Sr#")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SessionStart)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SessionEnd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SessionSections)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CourseName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DepartmentName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SessionCreateddate)
+                </th>
+                <th>
+                    @Html.DisplayName("Actions")
+                </th>
+            </tr>
+            @{
+        int count = 1;
+            }
+            @foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayName(count.ToString())
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionSections)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartmentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionCreateddate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditSession", new { id=item.SessionId}) |
+            @Html.ActionLink("Delete", "deleteSession", new { id = item.SessionId })
+        </td>
+        @{
+            count++;
+        }
+    </tr>
+}
+        </table>
+</div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        $.noConflict();
+        jQuery(function () {
+            $('.result').fadeOut(10000);
+        });
+    </script>
+}
